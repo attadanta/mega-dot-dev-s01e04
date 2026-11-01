@@ -7,11 +7,11 @@ function DigestRowView({ row }: { row: DigestRow }) {
   return (
     <tr class={warn ? 'warn' : undefined}>
       <td>{row.job}</td>
-      <td>{row.owner ?? dash}</td>
+      <td>{row.owner || dash}</td>
       <td>{row.runs}</td>
       <td>{row.retries}</td>
       <td>{row.lastStatus}</td>
-      <td>{row.lastError ?? dash}</td>
+      <td>{row.lastError || dash}</td>
       <td>{row.firstAt}</td>
       <td>{row.lastAt}</td>
     </tr>

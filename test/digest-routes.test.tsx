@@ -174,6 +174,15 @@ describe('digest routes with temp files', () => {
       };
       expect(body.rows.find((r) => r.job === 'delta/noowner')?.owner).toBeNull();
     });
+
+    it('shows a dash for an empty owner and an empty error', async () => {
+      writeFileSync(
+        join(dir, '2026-03-06.jsonl'),
+        '{"at":"2026-03-06T01:00:00+01:00","job":"eps/empty","status":"ok","owner":"","error":""}\n',
+      );
+      const html = await (await createApp(configFor(dir)).request('/digest/2026-03-06')).text();
+      expect(rowHtml(html, 'eps/empty').match(/<td>—<\/td>/g)).toHaveLength(2);
+    });
   });
 });
 
