@@ -82,7 +82,12 @@ describe('readNight with temp files', () => {
 
   it('gives an empty digest for an empty file', () => {
     write('2026-01-02', '');
-    expect(readNight(dir, '2026-01-02')).toEqual({ night: '2026-01-02', rows: [], badLines: 0 });
+    expect(readNight(dir, '2026-01-02')).toEqual({
+      night: '2026-01-02',
+      rows: [],
+      badLines: 0,
+      counts: { ok: 0, retry: 0, fail: 0 },
+    });
   });
 
   it('ignores blank lines without counting them', () => {
@@ -117,7 +122,12 @@ describe('readNight with temp files', () => {
     ];
     write('2026-01-04', lines.join('\n') + '\n');
     const d = readNight(dir, '2026-01-04');
-    expect(d).toEqual({ night: '2026-01-04', rows: [], badLines: lines.length });
+    expect(d).toEqual({
+      night: '2026-01-04',
+      rows: [],
+      badLines: lines.length,
+      counts: { ok: 0, retry: 0, fail: 0 },
+    });
   });
 
   it('treats a missing owner as null and mixes good and bad lines', () => {

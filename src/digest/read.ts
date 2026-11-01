@@ -1,6 +1,6 @@
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
-import type { DigestRow, JobStatus, ReadNight } from './types.js';
+import type { DigestRow, JobStatus, NightCounts, ReadNight } from './types.js';
 
 type Entry = {
   at: string;
@@ -44,6 +44,7 @@ export const readNight: ReadNight = (runsDir, night) => {
   }
 
   const rows = new Map<string, DigestRow>();
+  const counts: NightCounts = { ok: 0, retry: 0, fail: 0 };
   let badLines = 0;
 
   for (const line of text.split('\n')) {
@@ -53,6 +54,7 @@ export const readNight: ReadNight = (runsDir, night) => {
       badLines += 1;
       continue;
     }
+    counts[entry.status] += 1;
     const row = rows.get(entry.job);
     if (row === undefined) {
       rows.set(entry.job, {
@@ -76,5 +78,5 @@ export const readNight: ReadNight = (runsDir, night) => {
   }
 
   const sorted = [...rows.values()].sort((a, b) => (a.job < b.job ? -1 : a.job > b.job ? 1 : 0));
-  return { night, rows: sorted, badLines };
+  return { night, rows: sorted, badLines, counts };
 };
