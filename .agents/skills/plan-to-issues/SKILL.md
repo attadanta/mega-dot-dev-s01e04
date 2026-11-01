@@ -30,6 +30,19 @@ Closing one, with the closing comment from AGENTS.md:
 gh issue close <n> -c "<closing comment>"
 ```
 
+## What every issue carries
+
+The repo owner set this on 2026-11-01. The label is `plan:<plan name>`, and the body opens with
+the source line:
+
+```
+Source: plan.md § <n>
+
+Scope: ...
+Done when: ...
+Blocked by: #<n>, or nothing
+```
+
 ## No `gh`
 
 Steps 1–4 hold either way. GitHub reachable another way (a connector, the REST API, the web UI):
